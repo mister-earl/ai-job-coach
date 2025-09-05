@@ -8,7 +8,7 @@ A feelings-first approach to career guidance. Built with React and Claude AI.
 - 😊 Emotional check-in system
 
 ## Live Demo
-[Add your Vercel URL here once deployed]
+[https://ai-job-coach-ddgqcpv7g-earl-balisi-smiths-projects.vercel.app]
 
 ## Built With
 - React
