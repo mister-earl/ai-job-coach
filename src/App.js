@@ -124,38 +124,25 @@ const AIJobCoach = () => {
     }, 100);
     
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": process.env.REACT_APP_ANTHROPIC_API_KEY,
         },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [
-            {
-              role: "user",
-              content: `You are an AI job coach. The user is feeling ${selectedFeeling} about their job search. 
-              
-              Your coaching philosophy: Help people think for themselves rather than giving direct answers. Ask thought-provoking questions that help them discover insights. Be objective, not just supportive.
-              
-              Conversation so far:
-              ${newMessages.map(msg => `${msg.type === 'user' ? 'User' : 'Coach'}: ${msg.content}`).join('\n')}
-              
-              Respond with either:
-              1. A follow-up question that helps them dig deeper
-              2. Brief, objective guidance (1-2 sentences max) if they need direction
-              
-              Keep it conversational but professional. Focus on helping them think through their situation.`
-            }
-          ]
+          messages: newMessages,
+          feeling: selectedFeeling
         })
       });
-      
+
       const data = await response.json();
-      const coachResponse = { type: 'coach', content: data.content[0].text };
-      setChatMessages(prev => [...prev, coachResponse]);
+      
+      if (response.ok) {
+        const coachResponse = { type: 'coach', content: data.content };
+        setChatMessages(prev => [...prev, coachResponse]);
+      } else {
+        throw new Error(data.error || 'API request failed');
+      }
       
       // Auto-scroll after response
       setTimeout(() => {
