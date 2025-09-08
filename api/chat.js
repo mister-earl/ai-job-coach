@@ -4,15 +4,21 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Check if API key exists
     if (!process.env.ANTHROPIC_API_KEY) {
       console.error('Missing ANTHROPIC_API_KEY');
       return res.status(500).json({ error: 'API key not configured' });
     }
 
     const { messages, feeling } = req.body;
-    
     console.log('Received request:', { messages, feeling });
+
+    // Convert your message format to Claude's expected format
+    const claudeMessages = messages.map(msg => ({
+      role: msg.type === 'user' ? 'user' : 'assistant',
+      content: msg.content
+    }));
+
+    console.log('Converted messages for Claude:', claudeMessages);
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -22,14 +28,9 @@ export default async function handler(req, res) {
         "anthropic-version": "2023-06-01"
       },
       body: JSON.stringify({
-       model: "claude-3-5-sonnet-20241022",
+        model: "claude-3-5-sonnet-20241022", // Correct model name
         max_tokens: 1000,
-        messages: [
-          {
-            role: "user",
-            content: `You are an AI job coach. The user is feeling ${feeling}. Ask one thoughtful question to help them reflect. Keep it brief and conversational.`
-          }
-        ]
+        messages: claudeMessages
       })
     });
 
