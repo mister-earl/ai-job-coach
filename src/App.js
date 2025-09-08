@@ -461,17 +461,20 @@ EDUCATION
                     />
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Upload or paste your current resume:
-                    </label>
-                    <textarea
-                      value={resume}
-                      onChange={(e) => setResume(e.target.value)}
-                      className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      placeholder="Paste your resume text here (file upload coming soon)..."
-                    />
-                  </div>
+                 <div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Upload or paste your current resume:
+    <span className="text-xs text-gray-500 block mt-1">
+      *Note: This is a prototype - resume optimization currently uses mock responses to demonstrate the concept
+    </span>
+  </label>
+  <textarea
+    value={resume}
+    onChange={(e) => setResume(e.target.value)}
+    className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    placeholder="Paste your resume text here (file upload coming soon)..."
+  />
+</div>
                   
                   <button 
                     onClick={handleGenerateResume}
