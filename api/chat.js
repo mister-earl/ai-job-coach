@@ -1,11 +1,31 @@
 export default async function handler(req, res) {
-  // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
     const { messages, feeling } = req.body;
+
+    // Convert your chat format to Claude's expected format
+    const claudeMessages = [];
+    
+    // Add system context as first user message
+    claudeMessages.push({
+      role: "user",
+      content: `You are an AI job coach. The user is feeling ${feeling} about their job search. 
+      
+      Your coaching philosophy: Help people think for themselves rather than giving direct answers. Ask thought-provoking questions that help them discover insights. Be objective, not just supportive.
+      
+      Keep responses conversational but professional. Focus on helping them think through their situation.`
+    });
+
+    // Add conversation history in proper format
+    messages.forEach(msg => {
+      claudeMessages.push({
+        role: msg.type === 'user' ? 'user' : 'assistant',
+        content: msg.content
+      });
+    });
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -16,23 +36,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1000,
-        messages: [
-          {
-            role: "user",
-            content: `You are an AI job coach. The user is feeling ${feeling} about their job search. 
-            
-            Your coaching philosophy: Help people think for themselves rather than giving direct answers. Ask thought-provoking questions that help them discover insights. Be objective, not just supportive.
-            
-            Conversation so far:
-            ${messages.map(msg => `${msg.type === 'user' ? 'User' : 'Coach'}: ${msg.content}`).join('\n')}
-            
-            Respond with either:
-            1. A follow-up question that helps them dig deeper
-            2. Brief, objective guidance (1-2 sentences max) if they need direction
-            
-            Keep it conversational but professional. Focus on helping them think through their situation.`
-          }
-        ]
+        messages: claudeMessages
       })
     });
 
