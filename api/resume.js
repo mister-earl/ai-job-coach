@@ -33,18 +33,20 @@ ${resume}
 
 USER'S FEELING: ${feeling}
 
+IMPORTANT: Do NOT add the target job title to the resume. The user is APPLYING FOR this role, so optimize their EXISTING experience to match the requirements.
+
 Please provide:
-1. An optimized version of the resume that highlights relevant experience for this specific job
-2. Key improvements made
-3. Brief cover letter guidance based on their feeling (${feeling})
-4. Application tips for someone feeling ${feeling}
+1. An optimized version of their existing resume that highlights relevant experience for this specific job
+2. Key improvements made (as bullet points)
+3. Brief cover letter guidance based on their feeling (${feeling}) - keep it concise
+4. Application tips for someone feeling ${feeling} - keep it concise
 
 Format your response as JSON:
 {
-  "optimizedResume": "full optimized resume text here",
-  "improvements": "bullet points of key changes made",
-  "coverLetter": "cover letter guidance based on feeling",
-  "applicationTips": "application advice for their emotional state"
+  "optimizedResume": "full optimized resume text here - do not add the target job title",
+  "improvements": "• Point 1\n• Point 2\n• Point 3",
+  "coverLetter": "brief cover letter guidance",
+  "applicationTips": "brief application advice"
 }
 
 Respond only with valid JSON.`
