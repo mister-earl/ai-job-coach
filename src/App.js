@@ -457,67 +457,80 @@ const AIJobCoach = () => {
                   </button>
                 </>
               ) : (
-                <div className="space-y-4">
-                  {/* Key Improvements Box */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h3 className="font-semibold text-blue-800 mb-2">🎯 Key Improvements Made:</h3>
-                    <div className="text-sm text-blue-700">
-                      <pre className="whitespace-pre-wrap">{generatedResume.improvements}</pre>
-                    </div>
-                  </div>
+          {generatedResume && (
+  <div className="space-y-4">
+    {/* Key Improvements Box - Expandable */}
+    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="font-semibold text-blue-800">🎯 Key Improvements Made:</h3>
+        <button 
+          onClick={() => setShowFullImprovements(!showFullImprovements)}
+          className="text-blue-600 text-sm hover:text-blue-800"
+        >
+          {showFullImprovements ? 'Show Less' : 'More'}
+        </button>
+      </div>
+      <div className={`text-sm text-blue-700 ${showFullImprovements ? '' : 'max-h-20 overflow-hidden'}`}>
+        <pre className="whitespace-pre-wrap">{generatedResume.improvements}</pre>
+      </div>
+    </div>
 
-                  {/* Optimized Resume Box */}
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <h3 className="font-semibold text-green-800 mb-2">✅ Your Optimized Resume:</h3>
-                    <div className="bg-white p-4 rounded border max-h-64 overflow-y-auto">
-                      <pre className="whitespace-pre-wrap text-sm text-gray-800 font-mono">{generatedResume.optimizedResume}</pre>
-                    </div>
-                  </div>
-                  
-                  {/* Action Buttons */}
-                  <div className="flex space-x-3">
-                    <button 
-                      onClick={() => setGeneratedResume(null)}
-                      className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"
-                    >
-                      Generate New Version
-                    </button>
-                    <button 
-                      onClick={copyToClipboard}
-                      className={`flex-1 text-white py-2 px-4 rounded-lg font-medium transition-colors ${
-                        copyButtonText === '✅ Copied!' 
-                          ? 'bg-green-500 hover:bg-green-600' 
-                          : copyButtonText === '❌ Copy Failed'
-                          ? 'bg-red-500 hover:bg-red-600'
-                          : 'bg-gray-500 hover:bg-gray-600'
-                      }`}
-                    >
-                      {copyButtonText}
-                    </button>
-                  </div>
+    {/* Optimized Resume Box */}
+    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+      <h3 className="font-semibold text-green-800 mb-2">✅ Your Optimized Resume:</h3>
+      <div className="bg-white p-4 rounded border max-h-64 overflow-y-auto">
+        <pre className="whitespace-pre-wrap text-sm text-gray-800 font-mono">{generatedResume.optimizedResume}</pre>
+      </div>
+    </div>
+    
+    {/* Action Buttons */}
+    <div className="flex space-x-3">
+      <button 
+        onClick={() => setGeneratedResume(null)}
+        className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+      >
+        Generate New Version
+      </button>
+      <button 
+        onClick={copyToClipboard}
+        className={`flex-1 text-white py-2 px-4 rounded-lg font-medium transition-colors ${
+          copyButtonText === '✅ Copied!' 
+            ? 'bg-green-500 hover:bg-green-600' 
+            : copyButtonText === '❌ Copy Failed'
+            ? 'bg-red-500 hover:bg-red-600'
+            : 'bg-gray-500 hover:bg-gray-600'
+        }`}
+      >
+        {copyButtonText}
+      </button>
+    </div>
 
-                  {/* Additional Options */}
-                  <div className="pt-4 border-t border-gray-200">
-                    <p className="text-xs text-gray-500 mb-3 text-center">
-                      Feeling: {feelings.find(f => f.value === selectedFeeling)?.emoji} {feelings.find(f => f.value === selectedFeeling)?.label}
-                    </p>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                        <h4 className="font-medium text-yellow-800 text-sm mb-1">💡 Cover Letter Tips</h4>
-                        <p className="text-xs text-yellow-700">{generatedResume.coverLetter}</p>
-                      </div>
-                      
-                      <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
-                        <h4 className="font-medium text-purple-800 text-sm mb-1">🎯 Application Recommendations</h4>
-                        <p className="text-xs text-purple-700">{generatedResume.applicationTips}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+    {/* Additional Options - Now as navigation buttons */}
+    <div className="pt-4 border-t border-gray-200">
+      <p className="text-xs text-gray-500 mb-3 text-center">
+        Feeling: {feelings.find(f => f.value === selectedFeeling)?.emoji} {feelings.find(f => f.value === selectedFeeling)?.label}
+      </p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <button 
+          onClick={() => setShowCoverLetterPage(true)}
+          className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 hover:bg-yellow-100 transition-colors text-left"
+        >
+          <h4 className="font-medium text-yellow-800 text-sm mb-1">💡 Cover Letter Ideas</h4>
+          <p className="text-xs text-yellow-700">Get personalized cover letter guidance →</p>
+        </button>
+        
+        <button 
+          onClick={() => setShowApplicationPage(true)}
+          className="bg-purple-50 border border-purple-200 rounded-lg p-3 hover:bg-purple-100 transition-colors text-left"
+        >
+          <h4 className="font-medium text-purple-800 text-sm mb-1">🎯 Application Strategy</h4>
+          <p className="text-xs text-purple-700">View application recommendations →</p>
+        </button>
+      </div>
+    </div>
+  </div>
+)}
           
           {selectedPath === 'connections' && (
             <div className="text-center py-8">
