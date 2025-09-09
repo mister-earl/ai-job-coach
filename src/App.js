@@ -390,9 +390,18 @@ EDUCATION
           </div>
           
           {selectedPath === 'chat' && (
-            <div className="space-y-4">
-              {/* Chat Messages */}
-              <div className="bg-gray-50 rounded-lg p-4 h-64 overflow-y-auto space-y-3 chat-messages">
+  <div className="space-y-4">
+    {/* Disclaimer */}
+    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <h3 className="font-semibold text-blue-800 mb-2">💬 AI Coaching Support</h3>
+      <p className="text-sm text-blue-700">
+        This tool provides exploratory questions and reflection prompts, not professional career counseling. 
+        Always consider multiple perspectives and consult with career professionals for major decisions.
+      </p>
+    </div>
+    
+    {/* Chat Messages */}
+    <div className="bg-gray-50 rounded-lg p-4 h-64 overflow-y-auto space-y-3 chat-messages">
                 {chatMessages.map((message, index) => (
                   <div
                     key={index}
