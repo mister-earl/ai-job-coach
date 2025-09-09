@@ -479,6 +479,7 @@ const AIJobCoach = () => {
         <pre className="whitespace-pre-wrap">{generatedResume.improvements}</pre>
       </div>
     </div>
+}
 
     {/* Optimized Resume Box */}
     <div className="bg-green-50 border border-green-200 rounded-lg p-4">
