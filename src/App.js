@@ -176,21 +176,42 @@ const AIJobCoach = () => {
     setIsChatLoading(false);
   };
 
-  const handleGenerateResume = () => {
-    if (!jobDescription.trim() || !resume.trim()) {
-      alert('Please fill in both the job description and your resume');
-      return;
+  const handleGenerateResume = async () => {
+  if (!jobDescription.trim() || !resume.trim()) {
+    alert('Please fill in both the job description and your resume');
+    return;
+  }
+  
+  setIsGenerating(true);
+  
+  try {
+    const response = await fetch("/api/resume", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        jobDescription: jobDescription,
+        resume: resume,
+        feeling: selectedFeeling
+      })
+    });
+
+    const data = await response.json();
+    
+    if (response.ok) {
+      setGeneratedResume(data);
+    } else {
+      throw new Error(data.error || 'Resume optimization failed');
     }
     
-    setIsGenerating(true);
-    
-    // Simulate AI processing
-    setTimeout(() => {
-      const result = generateMockTailoredResume(jobDescription, resume, selectedFeeling);
-      setGeneratedResume(result);
-      setIsGenerating(false);
-    }, 2000);
-  };
+  } catch (error) {
+    console.error('Resume generation error:', error);
+    alert('Sorry, there was an error optimizing your resume. Please try again.');
+  }
+  
+  setIsGenerating(false);
+};
 
   const generateMockTailoredResume = (jd, originalResume, feeling) => {
     // Extract key requirements from job description
