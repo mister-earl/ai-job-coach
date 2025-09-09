@@ -13,6 +13,11 @@ const AIJobCoach = () => {
   const [chatInput, setChatInput] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
 
+  // ADD THE NEW LINES HERE:
+  const [showFullImprovements, setShowFullImprovements] = useState(false);
+  const [showCoverLetterPage, setShowCoverLetterPage] = useState(false);
+  const [showApplicationPage, setShowApplicationPage] = useState(false);
+
   const feelings = [
     { emoji: '😰', label: 'Anxious', value: 'anxious' },
     { emoji: '😤', label: 'Frustrated', value: 'frustrated' },
