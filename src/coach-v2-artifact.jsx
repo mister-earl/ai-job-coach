@@ -50,13 +50,6 @@ const CELL = 10;
 const COLS = 36;
 const ROWS = 20;
 
-const randomFood = (snake) => {
-  let p;
-  do { p = { x: Math.floor(Math.random()*COLS), y: Math.floor(Math.random()*ROWS) }; }
-  while (snake.some(s => s.x===p.x && s.y===p.y));
-  return p;
-};
-
 function useSnake(active) {
   const canvasRef = useRef(null);
   const stateRef  = useRef(null);
@@ -64,6 +57,15 @@ function useSnake(active) {
   const [score, setScore] = useState(0);
   const [dead,  setDead]  = useState(false);
 
+  const randomFood = (snake) => {
+    let p;
+    // eslint-disable-next-line no-loop-func
+    do { p = { x: Math.floor(Math.random()*COLS), y: Math.floor(Math.random()*ROWS) }; }
+    while (snake.some(s => s.x===p.x && s.y===p.y));
+    return p;
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const initState = () => ({
     snake: [{x:10,y:10},{x:9,y:10},{x:8,y:10}],
     dir:  {x:1,y:0},
@@ -121,8 +123,7 @@ function useSnake(active) {
     };
     window.addEventListener('keydown', onKey);
     return () => { cancelAnimationFrame(rafRef.current); window.removeEventListener('keydown', onKey); };
-  }, [active, initState]);
-  
+  }, [active]);
 
   const restart = () => { stateRef.current = initState(); setScore(0); setDead(false); };
   return { canvasRef, score, dead, restart };
