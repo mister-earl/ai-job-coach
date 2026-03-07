@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const AIJobCoach = () => {
   const [currentStep, setCurrentStep] = useState('feeling');
@@ -14,8 +14,11 @@ const AIJobCoach = () => {
   const [isChatLoading, setIsChatLoading] = useState(false);
 
   // ADD THE NEW LINES HERE:
+  // eslint-disable-next-line no-unused-vars
   const [showFullImprovements, setShowFullImprovements] = useState(false);
+    // eslint-disable-next-line no-unused-vars
   const [showCoverLetterPage, setShowCoverLetterPage] = useState(false);
+    // eslint-disable-next-line no-unused-vars
   const [showApplicationPage, setShowApplicationPage] = useState(false);
 
   const feelings = [
