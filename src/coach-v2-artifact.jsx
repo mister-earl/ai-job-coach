@@ -395,19 +395,17 @@ export default function CoachV2() {
     setInput('');
     setIsTyping(true);
     try {
-      const apiMsgs = history.map(m => ({ role: m.role==='bot'?'assistant':'user', content: m.content }));
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const apiMsgs = history.map(m => ({ type: m.role==='bot'?'assistant':'user', content: m.content }));
+      const res = await fetch('/api/chat', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({
-          model:'claude-sonnet-4-20250514',
-          max_tokens:1000,
           system: mode==='seeker' ? SEEKER_PROMPT : RECRUITER_PROMPT,
           messages: apiMsgs,
         })
       });
       const data = await res.json();
-      const reply = data.content?.[0]?.text || 'Signal lost. Try again.';
+      const reply = data.content || 'Signal lost. Try again.';
       setMessages([...history, { role:'bot', content:reply }]);
     } catch {
       setMessages([...history, { role:'bot', content:"Connection dropped. You're still in it." }]);

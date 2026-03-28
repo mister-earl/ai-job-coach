@@ -9,7 +9,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'API key not configured' });
     }
 
-    const { messages, feeling } = req.body;
+    const { messages, feeling, system } = req.body;
     console.log('Received request:', { messages, feeling });
 
     // Convert your message format to Claude's expected format
@@ -20,6 +20,13 @@ export default async function handler(req, res) {
 
     console.log('Converted messages for Claude:', claudeMessages);
 
+    const requestBody = {
+      model: "claude-3-haiku-20240307",
+      max_tokens: 1000,
+      messages: claudeMessages
+    };
+    if (system) requestBody.system = system;
+
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -27,11 +34,7 @@ export default async function handler(req, res) {
         "x-api-key": process.env.ANTHROPIC_API_KEY,
         "anthropic-version": "2023-06-01"
       },
-      body: JSON.stringify({
-        model: "claude-3-haiku-20240307", // Correct model name
-        max_tokens: 1000,
-        messages: claudeMessages
-      })
+      body: JSON.stringify(requestBody)
     });
 
     console.log('Claude API response status:', response.status);
