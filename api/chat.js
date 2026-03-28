@@ -4,8 +4,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    if (!process.env.ANTHROPIC_API_KEY) {
-      console.error('Missing ANTHROPIC_API_KEY');
+    if (!process.env.ANTHROPIC_KEY) {
+      console.error('Missing ANTHROPIC_KEY');
       return res.status(500).json({ error: 'API key not configured' });
     }
 
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "x-api-key": process.env.ANTHROPIC_KEY,
         "anthropic-version": "2023-06-01"
       },
       body: JSON.stringify(requestBody)
